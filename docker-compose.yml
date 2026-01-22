@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Optional: Ollama service (free LLM, local)
+  # Uncomment if you want Ollama in Docker
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   # Pull a model: docker exec -it contract_intelligence_api-ollama-1 ollama pull llama2
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./contracts:/app/contracts
+    environment:
+      - DB_PATH=/app/data/contracts.db
+      - DATA_DIR=/app/data
+      - WEBHOOK_URL=${WEBHOOK_URL:-}
+      # LLM Configuration (defaults to Ollama - free, local)
+      - LLM_ENABLED=${LLM_ENABLED:-true}
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama2}
+      # Alternative free options (uncomment if using):
+      # - GROQ_API_KEY=${GROQ_API_KEY:-}
+      # - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY:-}
+      # - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# volumes:
+#   ollama_data:
+
