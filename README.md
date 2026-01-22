@@ -6,20 +6,14 @@ A production-ready FastAPI service for ingesting, extracting, analyzing, and que
 
 - **PDF Ingestion**: Upload and process multiple PDF documents
 - **Structured Field Extraction**: Automatically extract key contract fields (parties, dates, terms, etc.)
-- **Question Answering (RAG)**: Ask questions about contracts with citations using LLM or simple extraction
+- **Question Answering**: Ask questions about contracts with citations using LLM or simple extraction
 - **Risk Auditing**: Detect risky clauses (auto-renewal, unlimited liability, etc.)
 - **Streaming Responses**: Server-Sent Events for streaming answers
 - **Webhook Support**: Optional webhook events for long-running tasks
 - **Metrics & Health**: Built-in metrics and health check endpoints
-- **Free LLM Integration**: Supports Ollama (local), Groq, Hugging Face, and OpenAI
+- **LLM Integration**: Supports Ollama (local)
 
 ## Quick Start
-
-### Prerequisites
-
-- Python 3.11+
-- Docker and Docker Compose (optional)
-- Ollama (optional, for free local LLM)
 
 ### Installation
 
@@ -50,11 +44,11 @@ A production-ready FastAPI service for ingesting, extracting, analyzing, and que
 docker-compose up --build
 ```
 
-## LLM Configuration (Optional)
+## LLM Configuration 
 
 The API supports multiple LLM providers for enhanced question answering:
 
-### Ollama (Recommended - Free, Local)
+### Ollama (Recommended)
 
 1. Install Ollama from https://ollama.ai
 2. Download a model:
@@ -63,15 +57,6 @@ The API supports multiple LLM providers for enhanced question answering:
    ```
 3. The API will automatically use Ollama if available
 
-### Groq (Free Tier - Very Fast)
-
-1. Sign up at https://console.groq.com
-2. Get API key
-3. Set environment variables:
-   ```bash
-   export GROQ_API_KEY="your-key"
-   export LLM_PROVIDER="groq"
-   ```
 
 ### Disable LLM
 
@@ -209,9 +194,6 @@ Interactive Swagger/OpenAPI documentation.
 - `LLM_PROVIDER`: LLM provider - `ollama`, `groq`, `huggingface`, `openai`, or `none` (default: `ollama`)
 - `OLLAMA_URL`: Ollama server URL (default: `http://localhost:11434`)
 - `OLLAMA_MODEL`: Ollama model name (default: `llama2`)
-- `GROQ_API_KEY`: Groq API key (optional)
-- `HUGGINGFACE_API_KEY`: Hugging Face API key (optional)
-- `OPENAI_API_KEY`: OpenAI API key (optional)
 
 ## Project Structure
 
@@ -263,11 +245,3 @@ The system includes safeguards for large documents:
 - Field extraction uses regex patterns and may miss some variations
 - LLM responses depend on model quality and speed
 - Risk detection uses rule-based patterns
-
-## License
-
-MIT License
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
